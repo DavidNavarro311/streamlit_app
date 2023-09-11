@@ -19,6 +19,61 @@ st.line_chart(df_racer, x= 'Speed', y = ['Acceleration', 'Weight', 'Handling', '
 st.header('Racer speed does not seem to correlate to numbert of races they win')
 x = st.slider('How many Racers to show', 1, len(df_racer))
 
-st.write('Racers by Speed')
-#df_fastest_Racer = df_racer[['Character', 'Speed']].sort_values('Speed', ascending) = False.iloc[0:x]
-#st.dataframe(df_fastest_racer)
+left_column_1, right_column_1 = st.columns(2)
+
+with left_column_1;
+    st.write('Racers by Speed')
+    #df_fastest_Racer = df_racer[['Character', 'Speed']].sort_values('Speed', ascending) = False.iloc[0:x]
+    #st.dataframe(df_fastest_racer)
+
+
+with right_column_1;
+    st.write("Racers by Win Percent")
+    df_best = df_racer[['Character','Times First Place','Total Races']]
+    df_best['Win Percent'] = df_best['Times First Place'] / df_best['Total Races'] * 100
+    df_best = df_best[['Character','Win Percent']].sort_values('Win Percent',ascending=False).iloc[0:x]
+    st.dataframe(df_best)
+
+
+character_dictionary = {
+ "Lemmy Koopa":"One of Bowser's minions. While they are small and is not all that bright, this guy can really pack a punch.",
+ "Baby Mario":"Everyone's favorite character, now in fun size.",
+ "Baby Luigi":"Goes to show you how long luigi has been a true loyal brother to Mario's cause.",
+ "Bowser Jr":"Bowser's kid, even more... if that is even possible",
+ "Toadette":"No affiliation to Toad, Has a Mushroom on her head",
+ "Toad":"He's really just a man with a mushroom on his head",
+ "Daisy":"insert_caption",
+ "Shy Guy":"you never really see his face, is that because when you race that you are always behind him?",
+ "Yoshi":"Now we will be able to see Yoshi's true potentiall without a plumber on his back",
+ "Tanooki Mario":"Super suits make all the difference",
+ "Link":"Wait, why is he apart of this universe? don't you have your own game?",
+ "Waluigi":"Luigi's Torment, although he is just the unloyal compainion to Wario",
+ "Wario":"Wacky Mustache and weird colored pants may just be the perfect advantage",
+ "Metal Mario":"Looks Like Mario put on some weight!",
+ "Mario":"Crowd Favorite",
+ "Luigi":"Loyal Companion",
+ "Peach":"The Essence of Royalty, and don't get me wrong, Peach can totally hold her own",
+ "Donkey Kong": "King of the Jungle",
+ "Bowser":"Big and Bad, Everything is fire and brimstone."
+}
+
+st.header ('Indiviual Racer stats')
+ left_column_2, right_column_2 = st.colunmn(2)
+ chosen = st.selectbox['pick a Character', df_racer('character')]
+ description = character_dictionary [chosen]
+ st.write(description)
+
+
+with left_column_3
+    st.image(f'images/{chosen}.png', width=200)
+
+df_single_racer = df_racer.loc[df_racer['Character'] == chosen].drop(columns=['Character','Times First Place','Total Races'])
+#st.write(df.df_single_racer)
+
+df_unp_racer = df_single_racer.unstack().rename_axis(['category','row number']).reset_index().drop(columns='row number').rename({0:'strength'}, axis=1)
+#st.writedf(df_unp_racer)
+
+st.bar_chart(df_unp_racer, x='category', y='strength')
+
+if st.checbox('Show all Racers')
+    st.bar_chart(df_racer, x='Character',y=['Speed','Acceleration','Weight','Handling','Traction/Grip','Mini-Turbo'])
