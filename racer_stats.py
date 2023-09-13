@@ -21,13 +21,13 @@ x = st.slider('How many Racers to show', 1, len(df_racer))
 
 left_column_1, right_column_1 = st.columns(2)
 
-with left_column_1;
+with left_column_1:
     st.write('Racers by Speed')
     #df_fastest_Racer = df_racer[['Character', 'Speed']].sort_values('Speed', ascending) = False.iloc[0:x]
     #st.dataframe(df_fastest_racer)
 
 
-with right_column_1;
+with right_column_1:
     st.write("Racers by Win Percent")
     df_best = df_racer[['Character','Times First Place','Total Races']]
     df_best['Win Percent'] = df_best['Times First Place'] / df_best['Total Races'] * 100
@@ -58,13 +58,13 @@ character_dictionary = {
 }
 
 st.header ('Indiviual Racer stats')
- left_column_2, right_column_2 = st.colunmn(2)
- chosen = st.selectbox['pick a Character', df_racer('character')]
- description = character_dictionary [chosen]
- st.write(description)
+left_column_2, right_column_2 = st.columns(2)
+chosen = st.selectbox('Pick a Character',df_racer['Character'])
+description = character_dictionary [chosen]
+st.write(description)
 
 
-with left_column_3
+with left_column_2:
     st.image(f'images/{chosen}.png', width=200)
 
 df_single_racer = df_racer.loc[df_racer['Character'] == chosen].drop(columns=['Character','Times First Place','Total Races'])
@@ -75,5 +75,6 @@ df_unp_racer = df_single_racer.unstack().rename_axis(['category','row number']).
 
 st.bar_chart(df_unp_racer, x='category', y='strength')
 
-if st.checbox('Show all Racers')
+if st.checkbox('Show all Racers'):
     st.bar_chart(df_racer, x='Character',y=['Speed','Acceleration','Weight','Handling','Traction/Grip','Mini-Turbo'])
+
